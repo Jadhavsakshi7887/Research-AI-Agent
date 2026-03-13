@@ -11,6 +11,8 @@ The entire ReAct loop + tools run directly inside Streamlit.
 # ══════════════════════════════════════════════════════════════
 #  IMPORTS
 # ══════════════════════════════════════════════════════════════
+from unittest import result
+
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
@@ -607,11 +609,22 @@ def run_react_agent_live(question: str, api_key: str, model: str, max_steps: int
             yield {"type": "step_update", "data": step_data}
             continue
 
+        
         # ── Final answer? ──
         if action_name == "final_answer":
             result["trace"]       = trace
             result["steps_taken"] = step
-            result["sources"]     = list(dict.fromkeys(sources_used + (result.get("sources") or [])))
+
+            sources_used = sources_used or []
+        if not isinstance(sources_used, list):
+            sources_used = [sources_used]
+
+        existing_sources = result.get("sources") or []
+        if not isinstance(existing_sources, list):
+            existing_sources = [existing_sources]
+
+            result["sources"] = list(dict.fromkeys(sources_used + existing_sources))
+
             yield {"type": "result", "data": result}
             return
 
