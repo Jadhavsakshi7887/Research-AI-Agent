@@ -1,0 +1,17 @@
+streamlit
+langchain
+langchain-community
+langchain-core
+openai
+huggingface_hub
+transformers
+torch
+sentence-transformers
+chromadb
+faiss-cpu
+pypdf
+python-dotenv
+requests
+tqdm
+numpy
+pandas
